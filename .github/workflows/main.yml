@@ -1,0 +1,50 @@
+# This is a basic workflow to help you get started with Actions
+# هذا ملف GitHub Actions بسيط كبداية لإنشاء CI/CD
+
+name: CI  # اسم الـ Workflow
+
+# Controls when the workflow will run
+# يحدد متى يتم تشغيل الـ Workflow
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  # تشغيل الـ Workflow عند حدوث push أو pull request على فرع main فقط
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  # يسمح بتشغيل الـ Workflow يدويًا من صفحة Actions
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+# الـ Workflow يحتوي على Job واحد أو أكثر، ويمكن تشغيلها بالتوازي أو بالتسلسل
+jobs:
+
+  # This workflow contains a single job called "build-and-release"
+  # يحتوي هذا الـ Workflow على Job واحد اسمه build-and-release
+  build-and-release:
+
+    # The type of runner that the job will run on
+    # نوع نظام التشغيل الذي سيعمل عليه الـ Job
+    runs-on: ubuntu-latest  # يمكن تغييره إلى windows-latest أو macos
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    # الخطوات التي سيتم تنفيذها داخل الـ Job
+    steps:
+
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # يقوم بعمل checkout للكود حتى يتمكن الـ Job من الوصول إليه
+      - uses: actions/checkout@v3
+
+      # Runs a single command using the runner's shell
+      # تنفيذ أمر واحد باستخدام الـ Shell
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+      # Runs a set of commands using the runner's shell
+      # تنفيذ عدة أوامر باستخدام الـ Shell
+      - name: Run a multi-line script
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
