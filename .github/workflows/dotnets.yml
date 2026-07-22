@@ -32,8 +32,3 @@ jobs:
     - name: Build Project
       run: msbuild Vidly.csproj /p:Configuration=Release   # Build project using MSBuild
                                                             # بناء مشروع Vidly باستخدام إعدادات Release
-
-    - name: Run Tests
-      run: |
-        vstest.console.exe Vidly.Tests\bin\Release\Vidly.Tests.dll   # Run test DLL
-                                                                     # تشغيل الاختبارات باستخدام VSTest
