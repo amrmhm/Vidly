@@ -29,7 +29,7 @@ jobs:
                                          # استعادة الحزم المطلوبة للمشروع باستخدام NuGet (وليس dotnet restore)
 
     - name: Build
-      run: msbuild Vidly.csproj /p:Configuration=Release   # Build project using MSBuild
+      run: msbuild Vidly/Vidly.csproj /p:Configuration=Release   # Build project using MSBuild
                                                             # بناء المشروع باستخدام MSBuild لأنه يدعم مشاريع MVC5/WebForms
     - name: Run Tests
       run: |
