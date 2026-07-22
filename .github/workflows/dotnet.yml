@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest   # Use Ubuntu server to run the job
+    runs-on: windows-latest   # Use Ubuntu server to run the job
                              # استخدام سيرفر Ubuntu لتشغيل الـ Job
 
     steps:
@@ -23,7 +23,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.x     # Install .NET SDK 8
+        dotnet-version: 5.0.x     # Install .NET SDK 8
                                   # تثبيت .NET SDK الإصدار 8
 
     - name: Restore dependencies
