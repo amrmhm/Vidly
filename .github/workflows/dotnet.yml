@@ -20,20 +20,18 @@ jobs:
     - uses: actions/checkout@v4   # Checkout project files
                                   # تحميل ملفات المشروع من GitHub
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 5.0.x     # Install .NET SDK 8
-                                  # تثبيت .NET SDK الإصدار 8
+    - name: Install Visual Studio Build Tools
+      uses: microsoft/setup-msbuild@v2   # Install MSBuild + WebApplication targets
+                                         # تثبيت أدوات Visual Studio الضرورية لبناء مشاريع WebApplication القديمة
 
     - name: Restore dependencies
-      run: dotnet restore         # Restore NuGet packages
-                                  # استعادة الحزم المطلوبة للمشروع
+      run: nuget restore Vidly.sln       # Restore NuGet packages
+                                         # استعادة الحزم المطلوبة للمشروع باستخدام NuGet (وليس dotnet restore)
 
     - name: Build
-      run: dotnet build --no-restore   # Build project without restore
-                                       # بناء المشروع بدون عمل restore مرة أخرى
-
-    - name: Test
-      run: dotnet test --no-build --verbosity normal   # Run tests
-                                                        # تشغيل الاختبارات
+      run: msbuild Vidly.csproj /p:Configuration=Release   # Build project using MSBuild
+                                                            # بناء المشروع باستخدام MSBuild لأنه يدعم مشاريع MVC5/WebForms
+    - name: Run Tests
+      run: |
+        vstest.console.exe Vidly.Tests\bin\Release\Vidly.Tests.dll   # Run test DLL
+                                                                     # تشغيل الاختبارات باستخدام VSTest
