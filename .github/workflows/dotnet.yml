@@ -1,0 +1,39 @@
+# This workflow will build and test a .NET project
+# هذا الـ Workflow يقوم ببناء مشروع .NET وتشغيل الاختبارات
+
+name: .NET
+
+on:
+  push:
+    branches: [ "master" ]   # Run workflow on push to master
+                             # تشغيل الـ Workflow عند حدوث push على فرع master
+  pull_request:
+    branches: [ "master" ]   # Run workflow on pull request to master
+                             # تشغيل الـ Workflow عند حدوث pull request على فرع master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest   # Use Ubuntu server to run the job
+                             # استخدام سيرفر Ubuntu لتشغيل الـ Job
+
+    steps:
+    - uses: actions/checkout@v4   # Checkout project files
+                                  # تحميل ملفات المشروع من GitHub
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x     # Install .NET SDK 8
+                                  # تثبيت .NET SDK الإصدار 8
+
+    - name: Restore dependencies
+      run: dotnet restore         # Restore NuGet packages
+                                  # استعادة الحزم المطلوبة للمشروع
+
+    - name: Build
+      run: dotnet build --no-restore   # Build project without restore
+                                       # بناء المشروع بدون عمل restore مرة أخرى
+
+    - name: Test
+      run: dotnet test --no-build --verbosity normal   # Run tests
+                                                        # تشغيل الاختبارات
