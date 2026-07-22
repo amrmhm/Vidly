@@ -1,0 +1,39 @@
+name: Build and Test Vidly (.NET Framework)
+
+on:
+  push:
+    branches: [ "master" ]      # Run workflow on push to master
+                                # تشغيل الـ Workflow عند حدوث push على فرع master
+  pull_request:
+    branches: [ "master" ]      # Run workflow on pull request to master
+                                # تشغيل الـ Workflow عند حدوث pull request على فرع master
+
+jobs:
+  build:
+    runs-on: windows-latest     # Use Windows runner
+                                # استخدام سيرفر ويندوز لأن المشروع يحتاج أدوات Visual Studio
+
+    steps:
+    - uses: actions/checkout@v4 # Checkout project files
+                                # تحميل ملفات المشروع من GitHub إلى السيرفر
+
+    - name: Install MSBuild
+      uses: microsoft/setup-msbuild@v2   # Install MSBuild + WebApplication targets
+                                         # تثبيت أدوات Visual Studio الضرورية لبناء مشاريع WebApplication القديمة
+
+    - name: Install VSTest
+      uses: microsoft/setup-vstest@v2    # Install VSTest.Console.exe
+                                         # تثبيت أداة تشغيل الاختبارات الخاصة بمشاريع .NET Framework
+
+    - name: Restore dependencies
+      run: nuget restore Vidly.sln       # Restore NuGet packages for all projects
+                                         # استعادة الحزم المطلوبة لكل المشاريع داخل الـ Solution
+
+    - name: Build Project
+      run: msbuild Vidly.csproj /p:Configuration=Release   # Build project using MSBuild
+                                                            # بناء مشروع Vidly باستخدام إعدادات Release
+
+    - name: Run Tests
+      run: |
+        vstest.console.exe Vidly.Tests\bin\Release\Vidly.Tests.dll   # Run test DLL
+                                                                     # تشغيل الاختبارات باستخدام VSTest
